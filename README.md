@@ -63,4 +63,4 @@ hemisphere_image_urls = [
 ![Screenshot](ReadMe_Resources/Mission_to_Mars_Website_Screenshot.png)
 
 ### Additional Notes
-* If you wish to run a new web scraping session select the "Scrape Now" icon
+* If you wish to run a new web scraping session select the "Let's Scrape the Mission" icon
