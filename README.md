@@ -44,7 +44,6 @@ hemisphere_image_urls = [
 * Establishes connection to "Mission to Mars" database.
 * Scrapes through websites via [Mission to Mars.py](Mission_to_Mars/mars_scrape.py) file and inserts the combined dictionary into the "Mission to Mars" database.
 * Displays the webpage, using information from the most recent database entry.
-	* The script and formatting for the webpage are found in the [Templates](Mission_to_Mars/Templates) folder.
 ---
 ### Tech Stack
 * HTML

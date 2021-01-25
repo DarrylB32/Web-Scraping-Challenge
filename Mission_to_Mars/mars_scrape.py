@@ -1,3 +1,4 @@
+# Import dependencies
 from splinter import Browser
 from splinter.exceptions import ElementDoesNotExist
 from bs4 import BeautifulSoup
@@ -8,16 +9,19 @@ def scrape():
     # Website to be scraped
     url = 'https://mars.nasa.gov/news/'
 
-    # Retrieve page with the requests module
+   # Retrieves page to be scraped with the requests module
     response = requests.get(url)
 
     # Create BeautifulSoup object; parse with 'html.parser'
     news_articles = BeautifulSoup(response.text, 'html.parser')
-    # Retrieve the titles for all articles
+
+    # Extracts the titles for all articles
     titles = news_articles.find_all('div', class_ = 'content_title')
 
-    # Retrieve description all articles
+    # Extracts descriptions all articles
     articles = news_articles.find_all('div', class_ = 'rollover_description_inner')
+    
+    # Append titles and their descriptions to list
     news_title=[]
     news_p=[]
     for title in titles:
@@ -26,15 +30,17 @@ def scrape():
     for article in articles:
         news_p.append(article.text.strip()) 
  
-
+    # Open chrome browser to use for scraping
     executable_path = {'executable_path':'C:\\Users\\dbayn\\Anaconda3\\webdrivers\\chromedriver.exe'}
     browser = Browser('chrome', **executable_path, headless=False)
+   
     # Website to be scraped
     url = "https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars"
 
+    # Open chrome browser to use for scraping
     browser.visit(url)
 
-    # Retrieve page with the requests module
+    # Retrieves page with the requests module
     response=requests.get(browser.url)
 
     # Create BeautifulSoup object; parse with 'html.parser'
@@ -45,6 +51,7 @@ def scrape():
     featured_image_url='https://www.jpl.nasa.gov'+featured_image_url.find('a')['data-fancybox-href']
     #featured_image_url
 
+    # Extract tabes from space-facts website
     url="https://space-facts.com/mars/"
     tables = pd.read_html(url)
     mars_facts=tables[0].to_html(header=False, index=False)
@@ -64,6 +71,7 @@ def scrape():
     #List of data for hemisphere links
     hemisphere_links=soup_hemisphere.find_all('div', class_='item')
 
+    # Create list of dictionaries containing mars image urls and titles 
     hemisphere_image_urls=[]
     for anchor in hemisphere_links:
         title=anchor.find('a').text
@@ -79,6 +87,7 @@ def scrape():
     
     hemisphere_image_urls
 
+    # Appends all lists and scraped data to one dictionary 
     mars_dict_all={
         'news_titles': news_title,
         'news_articles': news_p,
@@ -87,5 +96,9 @@ def scrape():
         'mars_weather': 'Input Weather Here',
         'mars_hemispheres': hemisphere_image_urls
     }
+    
+    # Close chromedriver
     browser.quit()
+
+    # Return dictionary
     return mars_dict_all
